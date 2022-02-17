@@ -294,8 +294,8 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                 result(false)
                 return
             }
-            if let myArgs = args as? [String: Any]{
-                let id = myArgs["id"] as? String,
+            if let myArgs = args as? [String: Any],
+                let id = myArgs["id"] as? String {
                 AppEvents.shared.userID = id
                 result(true)
                 return
