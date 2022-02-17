@@ -301,7 +301,7 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                 return
             }
         case "clearUserID":
-            AppEvents.shared.clearUserID()
+            AppEvents.clearUserID()
             result(true)
         default:
             result(FlutterMethodNotImplemented)
