@@ -65,6 +65,19 @@ class FlutterFacebookSdk {
     return true;
   }
 
+  /// Sets a user [id] to associate with all app events.
+  /// This can be used to associate your own user id with the
+  /// app events logged from this instance of an application.
+  /// The user ID will be persisted between application instances.
+  Future<void> setUserID(String id) {
+    return _channel.invokeMethod<void>('setUserID', {"id": id});
+  }
+
+  /// Clears the currently set user id.
+  Future<void> clearUserID() {
+    return _channel.invokeMethod<void>('clearUserID');
+  }
+
   /// Logs View Content Event of FBSDK with [currency] and [price]
   Future<bool> logViewedContent(
       {required String contentType,

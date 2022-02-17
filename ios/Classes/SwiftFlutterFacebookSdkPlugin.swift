@@ -169,6 +169,14 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
         eventSink(link)
         
     }
+
+    func handleSetUserId(id:String) {
+        AppEvents.shared.userID = id
+    }
+
+    func handleClearUserID() {
+        AppEvents.shared.clearUserID()
+    }
     
     
     
@@ -291,7 +299,20 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                 result(true)
                 return
             }
-            
+        case "setUserID":
+            guard let args = call.arguments else {
+                result(false)
+                return
+            }
+            if let myArgs = args as? [String: Any]{
+                let id = myArgs["id"] as? String,
+                handleSetUserId(id: id)
+                result(true)
+                return
+            }
+        case "clearUserID":
+            handleClearUserID()
+            result(true)
         default:
             result(FlutterMethodNotImplemented)
         }
