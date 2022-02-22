@@ -117,16 +117,25 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
                 logGenericEvent(args)
             }
             "setUserID" -> {
-                val args = call.arguments as HashMap<String, Any>
-                logger.setUserID(args['id'])
+                handleSetUserId(call, result)
             }
             "clearUserID" -> {
-                logger.clearUserID()
+                handleClearUserId(call, result)
             }
             else -> {
                 result.notImplemented()
             }
         }
+    }
+    private fun handleSetUserId(call: MethodCall, result: Result) {
+        val id = call.arguments as String
+        AppEventsLogger.setUserID(id)
+        result.success(null)
+    }
+
+    private fun handleClearUserId(call: MethodCall, result: Result) {
+        AppEventsLogger.clearUserID()
+        result.success(null)
     }
 
     private fun logGenericEvent(args : HashMap<String, Any>){
