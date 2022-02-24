@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.NonNull
-// import bolts.AppLinks
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
@@ -24,7 +23,9 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 import java.lang.NullPointerException
 import java.util.*
 import kotlin.collections.HashMap
-import kotlin.math.log
+
+
+
 
 
 /** FlutterFacebookSdkPlugin */
@@ -40,7 +41,6 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
     private lateinit var logger: AppEventsLogger
 
 
-    private var deepLinkUrl: String = "Saad Farhan"
     private var PLATFORM_CHANNEL: String = "flutter_facebook_sdk/methodChannel"
     private var EVENTS_CHANNEL: String = "flutter_facebook_sdk/eventChannel"
     private var queuedLinks: List<String> = emptyList()
@@ -85,7 +85,20 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
                 result.success("Android ${android.os.Build.VERSION.RELEASE}")
             }
             "getDeepLinkUrl" -> {
-                result.success(deepLinkUrl)
+
+                var bundle = activityPluginBinding!!.activity.intent.getBundleExtra("al_applink_data")
+                var deepLink : String? = null
+                if(bundle != null)
+                {
+                    var targetUrl = bundle.getString("target_url")
+                    if(targetUrl != null)
+                    {
+                        deepLink = targetUrl
+
+                    }
+
+                }
+                result.success(deepLink)
             }
             "logViewedContent", "logAddToCart", "logAddToWishlist" -> {
                 val args = call.arguments as HashMap<String, Any>
@@ -200,25 +213,30 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
     }
 
     private fun initFbSdk() {
-        FacebookSdk.setAutoInitEnabled(true)
-        FacebookSdk.fullyInitialize()
-        logger = AppEventsLogger.newLogger(context)
 
-        val targetUri = AppLinks.getTargetUrlFromInboundIntent(context, activityPluginBinding!!.activity.intent)
-        AppLinkData.fetchDeferredAppLinkData(context, object : AppLinkData.CompletionHandler {
-            override fun onDeferredAppLinkDataFetched(appLinkData: AppLinkData?) {
+        if(context != null)
+        {
+            FacebookSdk.setAutoInitEnabled(true)
+            FacebookSdk.fullyInitialize()
+            logger = AppEventsLogger.newLogger(context!!)
 
-                if (appLinkData == null) {
-                    return;
+
+            AppLinkData.fetchDeferredAppLinkData(context, object : AppLinkData.CompletionHandler {
+                override fun onDeferredAppLinkDataFetched(appLinkData: AppLinkData?) {
+
+                    if (appLinkData == null) {
+                        return;
+                    }
+
+                    var deepLinkUrl = appLinkData.targetUri.toString();
+                    if (eventSink != null) {
+                        eventSink!!.success(deepLinkUrl)
+                    }
                 }
 
-                deepLinkUrl = appLinkData.targetUri.toString();
-                if (eventSink != null && deepLinkUrl != null) {
-                    eventSink!!.success(deepLinkUrl)
-                }
-            }
+            })
+        }
 
-        })
     }
 
     private fun createBundleFromMap(parameterMap: Map<String, Any>?): Bundle? {
@@ -271,11 +289,20 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
 
     }
 
-    override fun onNewIntent(intent: Intent?): Boolean {
+    override fun onNewIntent(intent: Intent): Boolean {
         try {
-            // some code
-            deepLinkUrl = AppLinks.getTargetUrl(intent).toString()
-            eventSink!!.success(deepLinkUrl)
+            var bundle = intent.getBundleExtra("al_applink_data")
+            if(bundle != null)
+            {
+                var targetUrl = bundle.getString("target_url")
+                if(targetUrl != null)
+                {
+
+                    eventSink!!.success(targetUrl)
+                }
+
+            }
+
         } catch (e: NullPointerException) {
             // handler
             return false
