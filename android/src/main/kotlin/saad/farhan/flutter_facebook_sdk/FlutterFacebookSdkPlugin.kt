@@ -141,8 +141,8 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
         }
     }
     private fun handleSetUserId(call: MethodCall, result: Result) {
-        val id = call.arguments as String
-        AppEventsLogger.setUserID(id)
+        val args = call.arguments as HashMap<String, Any>
+        AppEventsLogger.setUserID(args["id"].toString())
         result.success(null)
     }
 
