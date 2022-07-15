@@ -103,7 +103,7 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
         AppEvents.shared.logEvent(.completedRegistration, parameters: parameters)
     }
     
-    func logPurchase(amount:Double, currency:String, parameters: Dictionary<String,Any>){
+    func logPurchase(amount:Double, currency:String, parameters: [AppEvents.ParameterName: Any]){
         AppEvents.shared.logPurchase(amount: amount, currency: currency, parameters: parameters)
     }
     
@@ -301,7 +301,7 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                 return
             }
         case "clearUserID":
-            AppEvents.clearUserID()
+            AppEvents.shared.userID = nil
             result(true)
         default:
             result(FlutterMethodNotImplemented)
