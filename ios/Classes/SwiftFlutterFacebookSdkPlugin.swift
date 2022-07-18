@@ -149,15 +149,16 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
     func logGenericEvent(args: [String: Any]){
         let eventName = args["eventName"] as! String
         let valueToSum = args["valueToSum"] as? Double
-        let parameters = args["parameters"] as? [AppEvents.ParameterName: Any] ?? [AppEvents.ParameterName: Any]()
-        if(valueToSum != nil && parameters != nil){
-            AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!, parameters: parameters!)
-        }else if(parameters != nil){
-            AppEvents.shared.logEvent(AppEvents.Name(eventName), parameters: parameters!)
-        }else if(valueToSum != nil){
-            AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!)
-        }else{
-            AppEvents.shared.logEvent(AppEvents.Name(eventName))
+        if let parameters = args["parameters"] as? [AppEvents.ParameterName: Any]{
+            if(valueToSum != nil && parameters != nil){
+                AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!, parameters: parameters!)
+            }else if(parameters != nil){
+                AppEvents.shared.logEvent(AppEvents.Name(eventName), parameters: parameters!)
+            }else if(valueToSum != nil){
+                AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!)
+            }else{
+                AppEvents.shared.logEvent(AppEvents.Name(eventName))
+            }
         }
     }
     
@@ -229,12 +230,13 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
             }
             if let myArgs = args as? [String: Any],
                let amount = myArgs["amount"] as? Double,
-               let currency = myArgs["currency"] as? String,
-               let parameters = myArgs["parameters"] as? [AppEvents.ParameterName: Any] ?? [AppEvents.ParameterName: Any]()
+               let currency = myArgs["currency"] as? String{
+                if let parameters = myArgs["parameters"] as? [AppEvents.ParameterName: Any]{
                 self.logPurchase(amount: amount, currency: currency, parameters: parameters)
                 result(true)
                 return
-            
+                }
+            }
             
         case "logSearch":
             guard let args = call.arguments else {
