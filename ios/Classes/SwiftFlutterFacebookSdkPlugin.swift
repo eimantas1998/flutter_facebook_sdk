@@ -149,19 +149,18 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
     func logGenericEvent(args: [String: Any]){
         let eventName = args["eventName"] as! String
         let valueToSum = args["valueToSum"] as? Double
-        if let parameters = args["parameters"] as? [AppEvents.ParameterName: Any]{
-            if(valueToSum != nil && parameters != nil){
-                AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!, parameters: parameters!)
-            }else if(parameters != nil){
-                AppEvents.shared.logEvent(AppEvents.Name(eventName), parameters: parameters!)
-            }else if(valueToSum != nil){
-                AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!)
-            }else{
-                AppEvents.shared.logEvent(AppEvents.Name(eventName))
-            }
+        let parameters = args["parameters"] as [AppEvents.ParameterName: Any]
+        if(valueToSum != nil && parameters != nil){
+            AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!, parameters: parameters!)
+        }else if(parameters != nil){
+            AppEvents.shared.logEvent(AppEvents.Name(eventName), parameters: parameters!)
+        }else if(valueToSum != nil){
+            AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!)
+        }else{
+            AppEvents.shared.logEvent(AppEvents.Name(eventName))
         }
-    }
     
+    }
     func sendMessageToStream(link:String){
         guard let eventSink = _eventSink else {
             _queuedLinks.append(link)
