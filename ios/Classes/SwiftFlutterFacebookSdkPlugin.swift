@@ -146,12 +146,10 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
         AppEvents.shared.logEvent(.initiatedCheckout, valueToSum: totalPrice, parameters: parameters)
     }
     
-    func logGenericEvent(args: [String: Any]){
+    func logGenericEvent(args: [String: AnyObject]){
         let eventName = args["eventName"] as! String
         let valueToSum = args["valueToSum"] as? Double
-        guard let parameters = args["parameters"] as? [AppEvents.ParameterName: Any]{
-            return
-        }
+        let parameters = args["parameters"] as? Dictionary<AppEvents.ParameterName: Any>
         if(valueToSum != nil && parameters != nil){
             AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!, parameters: parameters!)
         }else if(parameters != nil){
@@ -232,10 +230,8 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
             if let myArgs = args as? [String: Any],
                let amount = myArgs["amount"] as? Double,
                let currency = myArgs["currency"] as? String,
+               let parameters = myArgs["parameters"] as? Dictionary<AppEvents.ParameterName: Any>
                 {
-                    guard let parameters = myArgs["parameters"] as? [AppEvents.ParameterName: Any] else{
-                        return
-                    }
                 self.logPurchase(amount: amount, currency: currency, parameters: parameters)
                 result(true)
                 return
