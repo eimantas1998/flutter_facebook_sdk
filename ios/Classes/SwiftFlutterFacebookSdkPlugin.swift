@@ -224,25 +224,18 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                 return
             }
         case "logPurchase":
-        let arguments = call.arguments as? [String: Any] ?? [String: Any]()
-        let amount = arguments["amount"] as! Double
-        let currency = arguments["currency"] as! String
-        let parameters = arguments["parameters"] as? [AppEvents.ParameterName: Any] ?? [AppEvents.ParameterName: Any]()
-        self.logPurchase(amount: amount, currency: currency, parameters: parameters)
+            guard let args = call.arguments else {
+                result(false)
+                return
+            }
+            if let myArgs = args as? [String: Any],
+               let amount = myArgs["amount"] as? Double,
+               let currency = myArgs["currency"] as? String
+               let parameters = myArgs["parameters"] as! [AppEvents.ParameterName: Any]{
+                self.logPurchase(amount: amount, currency: currency, parameters: parameters)
                 result(true)
                 return
-            // guard let args = call.arguments else {
-            //     result(false)
-            //     return
-            // }
-            // if let myArgs = args as? [String: Any],
-            //    let amount = myArgs["amount"] as? Double,
-            //    let currency = myArgs["currency"] as? String
-            //    let parameters = myArgs["parameters"] as? [AppEvents.ParameterName: Any]{
-            //     self.logPurchase(amount: amount, currency: currency, parameters: parameters)
-            //     result(true)
-            //     return
-            // }
+            }
             
         case "logSearch":
             guard let args = call.arguments else {
