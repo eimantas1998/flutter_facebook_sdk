@@ -151,11 +151,11 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
         let valueToSum = args["valueToSum"] as? Double
         let parameters = args["parameters"] as? [AppEvents.ParameterName: Any]
         if(valueToSum != nil && parameters != nil){
-            AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum, parameters: parameters)
+            AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!, parameters: parameters)
         }else if(parameters != nil){
             AppEvents.shared.logEvent(AppEvents.Name(eventName), parameters: parameters)
         }else if(valueToSum != nil){
-            AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum)
+            AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!)
         }else{
             AppEvents.shared.logEvent(AppEvents.Name(eventName))
         }
