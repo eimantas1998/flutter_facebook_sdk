@@ -230,7 +230,7 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
             }
             if let myArgs = args as? [String: Any],
                let amount = myArgs["amount"] as? Double,
-               let currency = myArgs["currency"] as? String
+               let currency = myArgs["currency"] as? String,
                let parameters = myArgs["parameters"] as? [AppEvents.ParameterName: Any]{
                 self.logPurchase(amount: amount, currency: currency, parameters: parameters)
                 result(true)
