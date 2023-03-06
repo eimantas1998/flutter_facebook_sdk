@@ -180,7 +180,7 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
             result("iOS " + UIDevice.current.systemVersion)
         case "getDeepLinkUrl":
             
-            result(deepLinkUrl)
+            result(deepLinkUrl.isEmpty ? nil : deepLinkUrl)
         case "logViewedContent", "logAddToCart", "logAddToWishlist":
             guard let args = call.arguments else {
                 result(false)

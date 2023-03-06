@@ -228,6 +228,10 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
                         return;
                     }
 
+                    if(appLinkData.targetUri == null){
+                        return;
+                    }
+
                     var deepLinkUrl = appLinkData.targetUri.toString();
                     if (eventSink != null) {
                         eventSink!!.success(deepLinkUrl)
