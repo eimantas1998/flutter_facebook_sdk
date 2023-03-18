@@ -170,6 +170,23 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
         
     }
 
+    private func handleSetUserData(_ call: FlutterMethodCall, result: @escaping FlutterResult) {        
+        let arguments = call.arguments as? [String: Any] ?? [String: Any]()
+
+        AppEvents.shared.setUserData(arguments["email"] as? String, forType: FBSDKAppEventUserDataType.email)
+        AppEvents.shared.setUserData(arguments["firstName"] as? String, forType: FBSDKAppEventUserDataType.firstName)
+        AppEvents.shared.setUserData(arguments["lastName"] as? String, forType: FBSDKAppEventUserDataType.lastName)
+        AppEvents.shared.setUserData(arguments["phone"] as? String, forType: FBSDKAppEventUserDataType.phone)
+        AppEvents.shared.setUserData(arguments["dateOfBirth"] as? String, forType: FBSDKAppEventUserDataType.dateOfBirth)
+        AppEvents.shared.setUserData(arguments["gender"] as? String, forType: FBSDKAppEventUserDataType.gender)
+        AppEvents.shared.setUserData(arguments["city"] as? String, forType: FBSDKAppEventUserDataType.city)
+        AppEvents.shared.setUserData(arguments["state"] as? String, forType: FBSDKAppEventUserDataType.state)
+        AppEvents.shared.setUserData(arguments["zip"] as? String, forType: FBSDKAppEventUserDataType.zip)
+        AppEvents.shared.setUserData(arguments["country"] as? String, forType: FBSDKAppEventUserDataType.country)
+
+        result(nil)
+    }
+
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
         case "initializeSDK":
@@ -179,7 +196,6 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
         case "getPlatformVersion":
             result("iOS " + UIDevice.current.systemVersion)
         case "getDeepLinkUrl":
-            
             result(deepLinkUrl)
         case "logViewedContent", "logAddToCart", "logAddToWishlist":
             guard let args = call.arguments else {
@@ -301,8 +317,17 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                 result(true)
                 return
             }
+        case "clearUserData":
+            AppEvents.shared.clearUserData()
+            result(true)
+        case "setUserData":
+            handleSetUserData(call, result: result)
+            break
         case "clearUserID":
             AppEvents.shared.userID = nil
+            result(true)
+        case "flush":
+            AppEvents.shared.flush()
             result(true)
         default:
             result(FlutterMethodNotImplemented)

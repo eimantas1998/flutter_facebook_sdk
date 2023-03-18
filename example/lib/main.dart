@@ -124,6 +124,24 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> flush() async {
+    facebookDeepLinks!.flush();
+  }
+
+  Future<void> setUserData() async {
+    facebookDeepLinks!.setUserData(
+      email: 'test@test.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      phone: '+9234567890',
+      gender: 'male',
+    );
+  }
+
+  Future<void> clearUserData() async {
+    facebookDeepLinks!.clearUserData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -158,6 +176,15 @@ class _MyAppState extends State<MyApp> {
                   child: Text("Trigger Search")),
               TextButton(
                   onPressed: () async => await logInitiateCheckout(),
+                  child: Text("Trigger Initiate Checkout")),
+              TextButton(
+                  onPressed: () async => await setUserData(),
+                  child: Text("Trigger Initiate Checkout")),
+              TextButton(
+                  onPressed: () async => await clearUserData(),
+                  child: Text("Trigger Initiate Checkout")),
+              TextButton(
+                  onPressed: () async => await flush(),
                   child: Text("Trigger Initiate Checkout")),
               TextButton(
                   onPressed: () async => await logEvent(

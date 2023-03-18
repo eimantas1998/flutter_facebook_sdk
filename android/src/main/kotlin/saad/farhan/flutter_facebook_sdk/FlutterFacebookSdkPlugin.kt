@@ -132,6 +132,13 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
             "setUserID" -> {
                 handleSetUserId(call, result)
             }
+            "setUserData" -> {
+                handleSetUserData(call, result)
+            }
+            "clearUserData" -> {
+                handleClearUserData(call, result)
+            }
+            "flush" -> handleFlush(call, result)
             "clearUserID" -> {
                 handleClearUserId(call, result)
             }
@@ -151,6 +158,34 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
         result.success(null)
     }
 
+    private fun handleSetUserData(call: MethodCall, result: Result) {
+        val parameters = call.argument("parameters") as? Map<String, Object>
+        val parameterBundle = createBundleFromMap(parameters)
+    
+        AppEventsLogger.setUserData(
+          parameterBundle?.getString("email"),
+          parameterBundle?.getString("firstName"),
+          parameterBundle?.getString("lastName"),
+          parameterBundle?.getString("phone"),
+          parameterBundle?.getString("dateOfBirth"),
+          parameterBundle?.getString("gender"),
+          parameterBundle?.getString("city"),
+          parameterBundle?.getString("state"),
+          parameterBundle?.getString("zip"),
+          parameterBundle?.getString("country")
+        )
+        result.success(null)
+    }
+    
+    private fun handleClearUserData(call: MethodCall, result: Result) {
+        AppEventsLogger.clearUserData()
+        result.success(null)
+    }
+
+    private fun handleFlush(call: MethodCall, result: Result) {
+        appEventsLogger.flush()
+        result.success(null)
+    }
     private fun logGenericEvent(args : HashMap<String, Any>){
         val eventName = args["eventName"] as? String
         val valueToSum = args["valueToSum"] as? Double
