@@ -1,13 +1,13 @@
 PODS:
-  - FBAEMKit (15.1.0):
-    - FBSDKCoreKit_Basics (= 15.1.0)
-  - FBSDKCoreKit (15.1.0):
-    - FBAEMKit (= 15.1.0)
-    - FBSDKCoreKit_Basics (= 15.1.0)
-  - FBSDKCoreKit_Basics (15.1.0)
+  - FBAEMKit (14.1.0):
+    - FBSDKCoreKit_Basics (= 14.1.0)
+  - FBSDKCoreKit (14.1.0):
+    - FBAEMKit (= 14.1.0)
+    - FBSDKCoreKit_Basics (= 14.1.0)
+  - FBSDKCoreKit_Basics (14.1.0)
   - Flutter (1.0.0)
   - flutter_facebook_sdk (0.0.1):
-    - FBSDKCoreKit (~> 15.1.0)
+    - FBSDKCoreKit (~> 14.1.0)
     - Flutter
 
 DEPENDENCIES:
@@ -27,11 +27,11 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_sdk/ios"
 
 SPEC CHECKSUMS:
-  FBAEMKit: c7f82b5145d446bcbbcd50485c032689032fc6a2
-  FBSDKCoreKit: 7542746fc63a2a38dd6a865eeb54268341f37b83
-  FBSDKCoreKit_Basics: 92d6b26c0bed30ab09bbdd96dccaa26e6c9978d1
+  FBAEMKit: a899515e45476027f73aef377b5cffadcd56ca3a
+  FBSDKCoreKit: 24f8bc8d3b5b2a8c5c656a1329492a12e8efa792
+  FBSDKCoreKit_Basics: 6e578c9bdc7aa1365dbbbde633c9ebb536bcaa98
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_facebook_sdk: 39c3f11af2e6ed4a85ebf0064ec74bdba2b69fa2
+  flutter_facebook_sdk: d378fd4bd2df74cfc36c79081f15049e1a8a4420
 
 PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
 

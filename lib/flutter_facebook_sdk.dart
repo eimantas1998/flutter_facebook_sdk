@@ -74,9 +74,49 @@ class FlutterFacebookSdk {
     return _channel.invokeMethod<void>('setUserID', {"id": id});
   }
 
+  /// Sets the user data to associate with all app events.
+  /// This can be used to associate your own user data with the
+  /// app events logged from this instance of an application.
+  Future<void> setUserData({
+    String? email,
+    String? firstName,
+    String? lastName,
+    String? phone,
+    String? dateOfBirth,
+    String? gender,
+    String? city,
+    String? state,
+    String? zip,
+    String? country,
+  }) {
+    final args = <String, dynamic>{
+      'email': email,
+      'firstName': firstName,
+      'lastName': lastName,
+      'phone': phone,
+      'dateOfBirth': dateOfBirth,
+      'gender': gender,
+      'city': city,
+      'state': state,
+      'zip': zip,
+      'country': country,
+    };
+
+    return _channel.invokeMethod<void>('setUserData', args);
+  }
+
   /// Clears the currently set user id.
   Future<void> clearUserID() {
     return _channel.invokeMethod<void>('clearUserID');
+  }
+
+  Future<void> clearUserData() {
+    return _channel.invokeMethod<void>('clearUserData');
+  }
+
+  /// Explicitly flush any stored events to the server.
+  Future<void> flush() {
+    return _channel.invokeMethod<void>('flush');
   }
 
   /// Logs View Content Event of FBSDK with [currency] and [price]
