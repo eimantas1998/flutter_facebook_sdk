@@ -183,7 +183,7 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
     }
 
     private fun handleFlush(call: MethodCall, result: Result) {
-        appEventsLogger.flush()
+        AppEventsLogger.flush()
         result.success(null)
     }
     private fun logGenericEvent(args : HashMap<String, Any>){
