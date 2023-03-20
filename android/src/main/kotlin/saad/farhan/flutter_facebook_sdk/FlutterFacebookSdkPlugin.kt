@@ -138,7 +138,9 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
             "clearUserData" -> {
                 handleClearUserData(call, result)
             }
-            "flush" -> handleFlush(call, result)
+            "flush" -> {
+                handleFlush(call, result)
+            }
             "clearUserID" -> {
                 handleClearUserId(call, result)
             }
@@ -183,7 +185,7 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
     }
 
     private fun handleFlush(call: MethodCall, result: Result) {
-        AppEventsLogger.flush()
+        logger.flush()
         result.success(null)
     }
     private fun logGenericEvent(args : HashMap<String, Any>){
